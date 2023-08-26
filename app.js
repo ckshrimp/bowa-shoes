@@ -23,9 +23,9 @@ const cors = require('cors')
 
 
 
-app.use(cors({
-    origin: 'http://localhost:5173'
-}))
+// app.use(cors({
+//     origin: 'http://localhost:5173'
+// }))
 app.use(cookieParser());
 app.use((err, req, res, next) => {
     console.error("An unhandled error occurred:", err);
