@@ -6,7 +6,7 @@ const io = require("socket.io")(httpServer);
 const routes = require('./routes/router')
 const port = process.env.PORT || 6400
 const cookieParser = require('cookie-parser');
-
+const path = require('path');
 
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
@@ -24,7 +24,7 @@ const cors = require('cors')
 
 
 app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: 'http://localhost:6400'
 }))
 app.use(cookieParser());
 app.use((err, req, res, next) => {
@@ -46,6 +46,7 @@ app.use(session({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // createProxyMiddleware({
 //     target: 'https://192.168.43.115:6400',
@@ -54,9 +55,9 @@ app.use(express.static('public'))
 //   });
 //   app.get('/',(req,res)=> {
 //     res.send("HELLO")})
-// app.use('/', (req, res) => {
-//     res.send('index.js')
-// })
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
 app.use('/', routes)
 
 const socketIo = require('./socketIO')
