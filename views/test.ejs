@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="testButtonA">測試登入</button>
+  <button id="testButtonB">測試檢查登入狀態</button>
+  <button id="testButtonC">測試註冊</button>
+  <button id="testButtonD">測試商品列表</button>
+  <button id="testButtonE">測試商品頁面</button>
+  <button id="testButtonF">測試商品條件</button>
+  <button id="testButtonG">測試添加進入購物車2</button>
+  <button id="testButtonH">測試添加進入購物車</button>
+  <button id="testButtonI">測試獲取購物車資訊</button>
+  <button id="testButtonJ">測試獲取最愛資訊</button>
+  <button id="testButtonK">測試獲取類型列表</button>
+  <button id="testButtonL">測試獲取簡易購物車資訊</button>
+  <button id="testButtonM">測試會員中心</button>
+  <button id="testButtonN">測試修改會員資料</button>
+  <button id="testButtonO">測試修改會員資料</button>
+  <button id="testButtonP">測試修改購物車內容</button>
+  <button id="testButtonQ">測試我的訂單</button>
+  <button id="testButtonR">測試建立訂單</button>
+  <button id="testButtonS">測試發送信件</button>
+  <button id="testButtonT">測試獲取訂單選項</button>
+  <button id="testButtonU">發生錯誤</button>
+
+
+
+
+
+
+
+  <img src="Adidas/EF2561-001/01.jpg" alt="您的照片">
+
+  <script>
+    const testButtonA = document.getElementById('testButtonA');
+
+    testButtonA.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: 'shrimp@bowa.com', password: '1234' })
+        });
+
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonB = document.getElementById('testButtonB');
+
+    testButtonB.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test2', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+    const testButtonC = document.getElementById('testButtonC');
+
+    testButtonC.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test3', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: 'shrimp@bowa.com', password: '1234', name: 'shrimp', birthday: '1994-3-12', gender: 1, phoneNumber: '0921810218', address: '太平洋' })
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonD = document.getElementById('testButtonD');
+
+    testButtonD.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test4', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonE = document.getElementById('testButtonE');
+    testButtonE.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test5', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ productID: 'DC0774-416' })
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonF = document.getElementById('testButtonF');
+    testButtonF.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test6', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ brandType: 'adidas' })
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonG = document.getElementById('testButtonG');
+    testButtonG.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test8', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ productData:{productSizeID: 'DC0774-416-S05', quantity: 1 },cartList:[]})
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonH = document.getElementById('testButtonH');
+    testButtonH.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test8', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ productData:{productSizeID: 'DD8959-108-S11', quantity: 1},cartList:[] })
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonI = document.getElementById('testButtonI');
+    testButtonI.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test9', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({cartList:[
+  { productSizeID: 'AH2203-001-S08', quantity: 1, productSize: 24.5 },
+  { productSizeID: 'AH2203-001-S13', quantity: 100, productSize: 27 },
+  { productSizeID: 'AH2203-001-S19', quantity: 1, productSize: 30 },
+  { productSizeID: 'AH2203-001-S21', quantity: 1, productSize: 31 }
+]})
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonJ = document.getElementById('testButtonJ');
+    testButtonJ.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test10', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonK = document.getElementById('testButtonK');
+    testButtonK.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test11', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonL = document.getElementById('testButtonL');
+    testButtonL.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test12', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonM = document.getElementById('testButtonM');
+    testButtonM.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test13', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonN = document.getElementById('testButtonN');
+    testButtonN.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test14', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: 'crab', gender: 0,phoneNumber:'0987654321',address:'太平洋' })
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonO = document.getElementById('testButtonO');
+    testButtonO.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test15', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name: 'shrimp', gender: 1,phoneNumber:'0921810218',address:'西太平洋' })
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonP= document.getElementById('testButtonP');
+    testButtonP.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test16', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify([{ productSizeID:'DD8959-113-S07',quantity:2 }])
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonQ= document.getElementById('testButtonQ');
+    testButtonQ.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test17', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonR= document.getElementById('testButtonR');
+    testButtonR.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test18', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({cartList:[
+  { productSizeID: 'AH2203-001-S08', quantity: 1, productSize: 24.5 },
+  { productSizeID: 'AH2203-001-S13', quantity: 1, productSize: 27 },
+  { productSizeID: 'AH2203-001-S19', quantity: 1, productSize: 30 },
+  { productSizeID: 'AH2203-001-S21', quantity: 1, productSize: 31 }
+],
+recipientInfo:{recipientName:'訂購者',recipientAddress:'地址',recipientPhoneNumber:'電話號碼'},
+paymentMethodID:1,deliveryMethodID:1,shippingCost:100,totalPrice:13160})
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+    
+    const testButtonS= document.getElementById('testButtonS');
+    testButtonS.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test19', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({email:'nckushrimp@gmail.com'})
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+    const testButtonT= document.getElementById('testButtonT');
+    testButtonT.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test20', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+    const testButtonU= document.getElementById('testButtonU');
+    testButtonU.addEventListener('click', async () => {
+      try {
+        const response = await fetch('/test21', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+        const result = await response.json();
+        console.log(result);
+        // 在這裡處理從後端獲得的結果
+      } catch (error) {
+        console.error('請求失敗', error);
+      }
+    });
+
+  </script>
+</body>
+
+</html>
