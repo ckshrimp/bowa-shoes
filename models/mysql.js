@@ -1,9 +1,10 @@
 const mysql = require('mysql2/promise');
 const connection = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'lions64',
-    database: 'bowaStore'
+    host: process.env.MYSQL_HOST || 'localhost',
+    user: process.env.MYSQL_USERNAME || 'root',
+    port: process.env.MYSQL_PORT || 3306,
+    password: process.env.MYSQL_PASSWORD || 'lions64',
+    database: process.env.DATABASENAME || 'bowaStore'
 });
 
 //會員相關

@@ -4,7 +4,7 @@ const app = express();
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer);
 const routes = require('./routes/router')
-const port = 6400
+const port = process.env.PORT || 6400
 const cookieParser = require('cookie-parser');
 
 
