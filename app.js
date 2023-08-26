@@ -13,19 +13,19 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 
 app.set('view engine', 'ejs')
-const sessionMiddleware=(session({
+const sessionMiddleware = (session({
     secret: 'bowaShoesSeller',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false, httpOnly: false, maxAge: 3600000 } // 可選的 cookie 設定
 }))
-const cors=require('cors')
+const cors = require('cors')
 
 
 
 app.use(cors({
     origin: 'http://localhost:5173'
-  }))
+}))
 app.use(cookieParser());
 app.use((err, req, res, next) => {
     console.error("An unhandled error occurred:", err);
@@ -41,7 +41,7 @@ app.use(session({
     secret: 'bowaShoesSeller',
     resave: false,
     saveUninitialized: true,
-  }));
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -54,10 +54,13 @@ app.use(express.static('public'))
 //   });
 //   app.get('/',(req,res)=> {
 //     res.send("HELLO")})
+// app.use('/', (req, res) => {
+//     res.send('index.js')
+// })
 app.use('/', routes)
 
 const socketIo = require('./socketIO')
-io.on('connection', (socket)=>{
+io.on('connection', (socket) => {
     console.log('連線');
     socketIO(socket)                //進行socket事件調用
 })
