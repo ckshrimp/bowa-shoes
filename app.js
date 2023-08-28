@@ -4,7 +4,7 @@ const app = express();
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer);
 const routes = require('./routes/router')
-const port = process.env.PORT || 6400
+const port = process.env.PORT || 3000
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
@@ -23,9 +23,9 @@ const cors = require('cors')
 
 
 
-app.use(cors({
-    origin: 'http://localhost:6400'
-}))
+// app.use(cors({
+//     origin: 'http://localhost:6400'
+// }))
 app.use(cookieParser());
 app.use((err, req, res, next) => {
     console.error("An unhandled error occurred:", err);
