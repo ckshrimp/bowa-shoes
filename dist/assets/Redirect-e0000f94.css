@@ -1,0 +1,1 @@
+#container{display:flex;justify-content:center;height:100%;width:80%}.button{width:fit-content}#message{padding:20px;width:100%;text-align:center;flex-wrap:wrap;word-wrap:break-word;font-size:medium}#all{display:flex;justify-content:center;align-items:center;flex-direction:column;height:fit-content;width:80%;padding:20px}
