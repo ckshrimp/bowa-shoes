@@ -75,6 +75,17 @@ const getTypeList = async (req, res) => {
 	}
 }
 
+const getHomePageData=async(req,res)=>{
+	try{
+		console.log('獲取首頁資訊');
+		const data = await models.product.getHomePageData()
+		return res.json(data)
+	}catch(error){
+		console.error('獲取首頁資訊發生錯誤：', error)
+		res.status(500).json({ error: '伺服器發生錯誤' });
+	}
+}
+
 module.exports = {
 	getProductList,
 	getProductData,
@@ -82,4 +93,5 @@ module.exports = {
 	getProductDataThroughCartOrFavor,
 	getTypeList,
 	getProductDataFromCart,
+	getHomePageData,
 }

@@ -65,10 +65,8 @@ const getProductListWithImg=async()=>{
     const productList=await mysql.getProductData()
     for(let i=0;i<productList.length;i++){
         const product=productList[i]
-        // console.log(product);
         const productID=product.productID
         const [{imgSrc}]=await mysql.getImgSrcByProductID(productID)
-        // console.log(imgSrc);
         product.imgSrc=imgSrc
     }
     return productList
@@ -83,9 +81,20 @@ const getProductListByConditionWithImg=async(condition)=>{
     }
     return productList
 }
+const getHomePageData = async()=>{
+    const productList = await mysql.getThreeNewProduct()
+    for(let i=0;i<productList.length;i++){
+        const product=productList[i]
+        const productID=product.productID
+        const [{imgSrc}]=await mysql.getImgSrcByProductID(productID)
+        product.imgSrc=imgSrc
+    }
+    return {productList}
+}
 module.exports = {
     getProductDataByProductID,
     getTypeList,
     getProductListWithImg,
     getProductListByConditionWithImg,
+    getHomePageData,
 }

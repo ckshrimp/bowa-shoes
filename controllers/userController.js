@@ -113,7 +113,18 @@ const forgetPasswordAuthenticate=async(req,res)=>{
         res.status(500).json({ error: '伺服器發生錯誤' });
     }
 }
-
+const setNewPassword=async(req,res)=>{
+    try{
+        console.log('設置新密碼');
+        const {email,password}=req.body
+        await models.mysql.setNewPassword(email,password)
+        const data={result:true}
+        return res.json(data)
+    }catch(error){
+        console.error('設置新密碼發生錯誤',error)
+        res.status(500).json({ error: '伺服器發生錯誤' });
+    }
+}
 
 
 const changeMemberData = async (req, res) => {
@@ -223,4 +234,5 @@ module.exports = {
     forgetPasswordAuthenticate,
     logout,
     getCannedResponse,
+    setNewPassword,
 }

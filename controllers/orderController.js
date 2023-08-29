@@ -2,12 +2,10 @@ const models = require('../models')
 
 const createOrder = async (req, res) => {
     try {
-        //先儲存本地購物車資訊
         console.log('購物車結帳，成立訂單');
-        console.log(req.body);
         const orderData = req.body
-        //確認所有庫存足夠，進行三步驟 0.計算實際價格 如果與前端顯示不相等，無法成立訂單(未測試)1.成立訂單 2.減去商品庫存 3.把商品資料寫入訂單表格
-
+        //確認所有庫存足夠，進行三步驟 0.確認庫存與計算實際價格 如果與庫存不足或價格與前端顯示不相等，無法成立訂單 
+        //1.成立訂單 2.減去商品庫存 3.把商品資料寫入訂單表格
         if (!await models.order.isInventoryEnough(orderData)) {
             const errorMessage = '您選購之商品庫存不足，請至購物車查看詳情'
             const data = { orderID: false, errorMessage }
@@ -31,14 +29,15 @@ const createOrder = async (req, res) => {
             const data = { orderID: false, errorMessage }
             return res.json(data)
         }
+        console.log('開始成立訂單');
         const orderID = await models.order.createOrder(memberID, orderData)
         if (orderID) {
             const data = { orderID }
             return res.json(data)
         }
         if (!orderID) {
-            const errorMessage = '商品價格已進行變更，請重新結帳'
-            const data = { orderID, errorMessage }
+            const errorMessage = '訂單成立失敗，請重新結帳'
+            const data = { orderID:false, errorMessage }
             return res.json(data)
         }
     } catch (error) {

@@ -1,7 +1,0 @@
-const mysql={
-        host: host,
-        user: user,
-        port: port,
-        password: password,
-        database: database
-}

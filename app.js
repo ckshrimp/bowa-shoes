@@ -46,7 +46,7 @@ app.use(session({
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'))
-app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static(path.join(__dirname, 'dist')));
 
 // createProxyMiddleware({
 //     target: 'https://192.168.43.115:6400',
@@ -55,16 +55,11 @@ app.use(express.static(path.join(__dirname, 'dist')));
 //   });
 //   app.get('/',(req,res)=> {
 //     res.send("HELLO")})
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  });
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+//   });
 app.use('/', routes)
 
-const socketIo = require('./socketIO')
-io.on('connection', (socket) => {
-    console.log('連線');
-    socketIO(socket)                //進行socket事件調用
-})
 
 httpServer.listen(port, () => {
     console.log(`http://localhost:${port}`);

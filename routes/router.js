@@ -33,7 +33,7 @@ router.post('/test19',controllers.user.forgetPassword)
 router.get('/test20',controllers.order.getOrderFormOption)
 router.get('/test21',controllers.test)
 
-
+router.post('/forgetPassword',controllers.user.forgetPassword)
 router.post('/createCode',controllers.user.forgetPassword)
 router.post('/codeAuthenticate',controllers.user.forgetPasswordAuthenticate)
 router.get('/forgetPasswordPage',controllers.forgetPassword)
@@ -71,6 +71,7 @@ router.post('/orderQAList',controllers.order.getOrderQA)
 router.post('/createOrderQA',controllers.order.createOrderQA)
 router.get('/cannedResponse',controllers.user.getCannedResponse)
 router.post('/returnOrderProduct',controllers.order.returnOrderProduct)
-
+router.get('/homePageData',controllers.product.getHomePageData)
+router.post('/setNewPassword',controllers.user.setNewPassword)
 
 module.exports=router
