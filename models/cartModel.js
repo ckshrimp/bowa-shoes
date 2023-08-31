@@ -83,8 +83,9 @@ const getDetailsByCartList=async(memberID,cartList)=>{
             return product.inventory!=0
         })
         
-        //這邊拿金額跟名字
+        //這邊拿金額跟名字和性別
         const [{price,productName}]=await mysql.getProductNameAndPrice(productID)
+        const [{genderType}]=await mysql.getGenderType(productID)
         product.price=price
         return {
             ...product,
@@ -93,6 +94,7 @@ const getDetailsByCartList=async(memberID,cartList)=>{
             inventory:otherSizeInventory,
             productID,
             imgSrc,
+            genderType,
         }
     }))
     

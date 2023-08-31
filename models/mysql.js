@@ -304,6 +304,16 @@ const getGenderTypeList = async () => {
         throw error
     }
 }
+const getGenderType = async (productID)=>{
+    try{
+        const sqlString = `select gt.genderType from product left join genderType gt on product.genderTypeID=gt.genderTypeID WHERE productID=?;`
+        const [result]=await connection.execute(sqlString,[productID])
+        return result
+    }catch (error) {
+        console.log('進行資料庫操作時發生錯誤');
+        throw error
+    }
+}
 const getProductNameAndPrice = async (productID) => {
     try {
         const sqlString = `select productName,price from product where productID=?`
@@ -708,5 +718,6 @@ module.exports = {
     getSixNewProduct,
     setNewPassword,
     updateLastLoginDate,
+    getGenderType,
 }
 
