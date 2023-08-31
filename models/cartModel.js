@@ -107,7 +107,9 @@ const addProductSizeToCart = async (productData, memberID,cartList) => {
         cartList=await mysql.getCartList(memberID)
     }//防止本地購物車被清空
 
-    const { productSizeID, quantity } = productData
+    let { productSizeID, quantity } = productData
+
+
     const productSizeAlreadyInCart=cartList.filter((product) => {
         return product.productSizeID == productSizeID
     })
@@ -139,22 +141,26 @@ const addProductSizeToCart = async (productData, memberID,cartList) => {
 
 const addGuestCartToMemberCart=async(guestCartList,memberID)=>{
     memberCartList = await mysql.getCartList(memberID)
+    console.log('購物車裡面有',guestCartList);
+    console.log('資料庫裡有',memberCartList);
     for(let i=0;i<guestCartList.length;i++){
         const product=guestCartList[i]
         const {productSizeID,quantity}=product
-        const productSizeAlreadyInCart=memberCartList.filter((product) => {
+        console.log('商品是',productSizeID);
+        let productSizeAlreadyInCart=memberCartList.filter((product) => {
             return product.productSizeID == productSizeID
         })
+        console.log('商品已經在購物車內',productSizeAlreadyInCart);
         if (productSizeAlreadyInCart.length!=0) {
             const originalQuantity=productSizeAlreadyInCart[0].quantity
             const newQuantity=originalQuantity+quantity
+            console.log(originalQuantity,'+',quantity,'=',newQuantity);
             await mysql.changeProductSizeQuantityInCart(productSizeID,newQuantity,memberID)
-            return true
         } else {
             const result = await mysql.addProductSizeToCart(productSizeID, quantity, memberID)
-            return true
         }
     }
+    return true
 }
 const changeAllSizeAndQuantityInCart=async(memberID,cartList)=>{
     await mysql.clearCart(memberID)

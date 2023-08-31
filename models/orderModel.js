@@ -14,7 +14,7 @@ const isInventoryEnough = async (orderData) => {
 const isTotalPriceCorrect = async (orderData, memberID) => {
     const cartList = orderData.cartList
 
-    // 0.計算實際價格 如果與前端顯示不相等，無法成立訂單(未測試)1.成立訂單 2.減去商品庫存 3.把商品資料寫入訂單表格
+    // 0.計算實際價格 如果與前端顯示不相等，無法成立訂單
 
     let realTotalPrice = 0
     for (let i = 0; i < cartList.length; i++) {
@@ -102,17 +102,6 @@ const checkInventory = async (cartList) => {
         }
     }
     return false
-}
-const getShippingCost = (totalPrice) => {
-    return 100
-}
-const calculateTotalPrice = (cartList) => {
-    let totalPrice = 0
-    cartList.forEach((product) => {
-        const Price = product.price * product.quantity
-        totalPrice += Price
-    })
-    return totalPrice
 }
 
 const getOrderDetail = async (orderID) => {

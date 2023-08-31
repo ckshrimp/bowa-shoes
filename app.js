@@ -2,9 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const httpServer = require("http").createServer(app);
-const io = require("socket.io")(httpServer);
 const routes = require('./routes/router')
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 6400
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
@@ -23,44 +22,28 @@ const cors = require('cors')
 
 
 
-// app.use(cors({
-//     origin: 'http://localhost:6400'
-// }))
+app.use(cors({
+    origin: 'http://localhost:6400'
+}))
 app.use(cookieParser());
 app.use((err, req, res, next) => {
     console.error("An unhandled error occurred:", err);
 });
 
-app.use(sessionMiddleware)
-io.use((socket, next) => {
-    sessionMiddleware(socket.request, socket.request.res, next);
-});
 
-
-app.use(session({
-    secret: 'bowaShoesSeller',
-    resave: false,
-    saveUninitialized: true,
-}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'))
-// app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
-// createProxyMiddleware({
-//     target: 'https://192.168.43.115:6400',
-//     secure: false,
-//     changeOrigin: true,
-//   });
-//   app.get('/',(req,res)=> {
-//     res.send("HELLO")})
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-//   });
-app.use('/', routes)
+app.use('/api', routes)
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
 
 
 httpServer.listen(port, () => {
     console.log(`http://localhost:${port}`);
 })
+

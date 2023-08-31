@@ -56,7 +56,7 @@ const getMemberData=async(memberID)=>{
 }
 const setMemberData=async(name,gender,phoneNumber,address,memberID)=>{
     try{
-        const sqlString=`update member_Info set name=?,gender=?,phoneNumber=?,address=? where memberID=? `
+        const sqlString=`update member_info set name=?,gender=?,phoneNumber=?,address=? where memberID=? `
         const [result]=await connection.execute(sqlString,[name,gender,phoneNumber,address,memberID])
         return result
     } catch (error) {
@@ -76,7 +76,7 @@ const getVIPStatus = async (memberID) => {
 }
 const updateVIPStatus=async(memberID,level,consumeTotal)=>{
     try{
-        const sqlString=`update member_Info set level=?,consumeTotal=? WHERE memberID=?`
+        const sqlString=`update member_info set level=?,consumeTotal=? WHERE memberID=?`
         const [result]=await connection.execute(sqlString,[level,consumeTotal,memberID])
         return result
     } catch (error) {
@@ -126,7 +126,7 @@ const getEmailFromVerificationCode = async () => {
 }
 const getMemberIDByEmail=async(email)=>{
     try{
-        const sqlString = `select memberID from member_Info WHERE email=?`
+        const sqlString = `select memberID from member_info WHERE email=?`
         const [result]=await connection.execute(sqlString,[email])
         return result
     } catch (error) {
@@ -136,7 +136,7 @@ const getMemberIDByEmail=async(email)=>{
 }
 const getEmailByMemberID=async(memberID)=>{
     try{
-        const sqlString=`select email from member_Info WHERE memberID=?`
+        const sqlString=`select email from member_info WHERE memberID=?`
         const [result]=await connection.execute(sqlString,[memberID])
         return result
     } catch (error) {
@@ -146,8 +146,7 @@ const getEmailByMemberID=async(memberID)=>{
 }
 const updateMemberInfo=async(memberID,info,value)=>{
     try{
-        const sqlString=`update member_Info set ${info} = ? WHERE memberID = ?`
-        console.log(info,value,memberID);
+        const sqlString=`update member_info set ${info} = ? WHERE memberID = ?`
         const [result]=await connection.execute(sqlString,[value,memberID])
         return result
     } catch (error) {
@@ -156,15 +155,27 @@ const updateMemberInfo=async(memberID,info,value)=>{
     }
 }
 const getConsumeTotal=async(memberID)=>{
-    const sqlString=`select consumeTotal from member_Info WHERE memberID=?`
+    const sqlString=`select consumeTotal from member_info WHERE memberID=?`
     const [result]=await connection.execute(sqlString,[memberID])
     return result
 }
 const setNewPassword = async (email, password) => {
     try {
-        const [[{memberID}]]= await connection.execute(`select memberID from member_Info WHERE email=?`,[email])
+        const [[{memberID}]]= await connection.execute(`select memberID from member_info WHERE email=?`,[email])
         const sqlString = `update member_info set password = ? WHERE memberID = ?`
         const [result] = await connection.execute(sqlString, [password, memberID])
+        return result
+    } catch (error) {
+        console.log('進行資料庫操作時發生錯誤');
+        throw error
+    }
+}
+const updateLastLoginDate=async(memberID)=>{
+    try {
+        const date=new Date()
+        console.log(date);
+        const sqlString = `update member_info set lastLoginDate = ? WHERE memberID = ?`
+        const [result] = await connection.execute(sqlString, [date, memberID])
         return result
     } catch (error) {
         console.log('進行資料庫操作時發生錯誤');
@@ -374,7 +385,7 @@ const getCartList = async (memberID) => {
         const sqlString = `select ms.productSizeID,ms.quantity,ss.productSize
         from member_shoppingCartList  ms
         left join productSize ps on ps.productSizeID=ms.productSizeID
-        left join sizespecifications ss on ss.sizeID= ps.sizeID where memberID= ?`
+        left join sizesPecifications ss on ss.sizeID= ps.sizeID where memberID= ?`
         const [result]=await connection.execute(sqlString,[memberID])
         return result
     } catch (error) {
@@ -538,7 +549,7 @@ const getOrderProduct = async (orderID) => {
 }
 const createOrderQA=async(orderID,memberID,content)=>{
     try{
-        const sqlString=`insert into orderqarecord (orderID,speaker,content) values (?,?,?)`
+        const sqlString=`insert into orderQARecord (orderID,speaker,content) values (?,?,?)`
         const [result]=await connection.execute(sqlString,[orderID,memberID,content])
         return result
     } catch (error) {
@@ -548,7 +559,7 @@ const createOrderQA=async(orderID,memberID,content)=>{
 }
 const getOrderQA=async(orderID)=>{
     try{
-        const sqlString=`select speaker,content,QATime from orderqarecord WHERE orderID=?`
+        const sqlString=`select speaker,content,QATime from orderQARecord WHERE orderID=?`
         const [result]=await connection.execute(sqlString,[orderID])
         return result
     } catch (error) {
@@ -623,7 +634,6 @@ const getCurrentPrice = async (orderID, productSizeID) => {
     return result
 }
 const getReturnID = async (id) => {
-    console.log(id);
     const sqlString = `select returnID from orderReturn WHERE id= ?`
     const [result] = await connection.execute(sqlString, [id])
     return result
@@ -696,5 +706,6 @@ module.exports = {
     createReturnProduct,
     getThreeNewProduct,
     setNewPassword,
+    updateLastLoginDate,
 }
 

@@ -21,6 +21,7 @@ const isLogin = async (req, res) => {           //判斷有無登入
 const loginAuthenticate = async (req, res) => { //提交登入表單進行驗證
     try{
         console.log('進行登入驗證');
+        console.log(req.body)
         const user = req.body
         const loginResult = await models.user.checkLogin(user)  //登入驗證，成功則回傳token
         if (!loginResult) {
@@ -29,17 +30,19 @@ const loginAuthenticate = async (req, res) => { //提交登入表單進行驗證
             return res.json(data)
         }
         if (loginResult) {
+            const {token,memberID}=loginResult
             //將token存入req.header
-            req.header.authorization = `${loginResult}`
+            req.header.authorization = `${token}`
+            ///更新登入時間
+            await models.mysql.updateLastLoginDate(memberID)
             //如果購物車有東西，加入會員購物車
-            const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
             if (req.body.cartList) {
                 const cartList = req.body.cartList
-                models.cart.addGuestCartToMemberCart(cartList, memberID)
+                await models.cart.addGuestCartToMemberCart(cartList, memberID)
             }
             //結束
             const cartList = await models.mysql.getCartList(memberID)
-            console.log('cartList',cartList);
+            console.log('合併之後有',cartList);
             //找出購物車資料給前端儲存在本地
             const data = { result: true, cartList: cartList }
             return res.json(data)
@@ -146,7 +149,7 @@ const changeMemberInfo = async (req,res) => {
     try{
         console.log('更改單項會員資料');
         console.log(req.body);
-        const [memberInfo]=Object.entries(req.body)
+        const memberInfo=req.body
         const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
         await models.user.updateMemberInfo(memberID,memberInfo)
         const data = {result:true}

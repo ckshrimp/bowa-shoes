@@ -18,7 +18,7 @@ const checkLogin = async (user) => {                                            
             if (password == userData.password) {
                 const memberID = userData.memberID
                 const token = jwt.sign({ memberID: memberID }, jwtKey, { expiresIn: 86400 });
-                return token
+                return {token,memberID}
             }
         }
 }
@@ -93,7 +93,6 @@ const deleteFavor = async (memberID, productSizeID) => {
 
 const getmemberIDByJWT = (req) => jwt.verify(req.header.authorization, jwtKey, (error, result) => {
     try {
-        console.log('驗證memberID:', result);
         const memberID = result.memberID
         return memberID
     }catch{
@@ -164,8 +163,7 @@ const autoRegister = async (orderData) => {           //  結帳自動註冊
 }
 
 const updateMemberInfo = async (memberID, memberInfo) => {
-    const [info, value] = memberInfo
-    console.log('1', info, value);
+    const [[info, value]] = Object.entries(memberInfo)
     const result = await mysql.updateMemberInfo(memberID, info, value)
     return result
 }
