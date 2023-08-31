@@ -415,7 +415,7 @@ const getFavorList = async (memberID) => {
 }
 const addProductToFavor = async (memberID, productSizeID) => {
     try {
-        const sqlString = `insert into member_favoriteslist (memberID,productSizeID) values (?,?)`
+        const sqlString = `insert into member_favoritesList (memberID,productSizeID) values (?,?)`
         const [result] = await connection.execute(sqlString, [memberID, productSizeID])
         return result
     } catch (error) {

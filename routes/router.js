@@ -74,4 +74,5 @@ router.post('/returnOrderProduct',controllers.order.returnOrderProduct)
 router.get('/homePageData',controllers.product.getHomePageData)
 router.post('/setNewPassword',controllers.user.setNewPassword)
 
+
 module.exports=router

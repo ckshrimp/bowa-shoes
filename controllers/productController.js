@@ -86,6 +86,7 @@ const getHomePageData=async(req,res)=>{
 	}
 }
 
+
 module.exports = {
 	getProductList,
 	getProductData,
@@ -94,4 +95,5 @@ module.exports = {
 	getTypeList,
 	getProductDataFromCart,
 	getHomePageData,
+
 }
