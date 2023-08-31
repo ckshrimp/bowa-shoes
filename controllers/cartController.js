@@ -19,7 +19,7 @@ const getSimpleCartData = async (req, res) => {
 const getCartData = async (req, res) => {
     try{
         console.log('獲取購物車詳細資訊');
-        const { cartList } = req.body
+        const cartList = req.body.cartList ?? []
         const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         console.log(memberID)
         if (memberID) {
