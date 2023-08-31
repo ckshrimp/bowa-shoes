@@ -98,3 +98,4 @@ module.exports = {
     getProductListByConditionWithImg,
     getHomePageData,
 }
+

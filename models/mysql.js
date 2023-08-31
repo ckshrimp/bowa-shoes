@@ -193,9 +193,9 @@ const getProductData = async (conditionList = false) => {
         if(conditionList){
             const [condition,conditionValue]=conditionList
             const sqlString =`select productID,productName,price,remark,series,model,style from product 
-            left join brandType on brandType.brandTypeID=Product.brandTypeID
-            left join categoryType on categoryType.categoryTypeID=Product.categoryTypeID
-            left join genderType on genderType.genderTypeID=Product.genderTypeID
+            left join brandType on brandType.brandTypeID=product.brandTypeID
+            left join categoryType on categoryType.categoryTypeID=product.categoryTypeID
+            left join genderType on genderType.genderTypeID=product.genderTypeID
             WHERE ${condition} = ? and isPublished=1`
             const [result] = await connection.execute(sqlString, [conditionValue])
             return result
@@ -435,7 +435,7 @@ const clearCart = async (memberID) => {
 }
 const updateProductSizeQuantityInCart = async (memberID, productSizeID, quantity) => {
     try {
-        const sqlString = `update member_shoppingcartList set quantity = ? WHERE memberID=? and productSizeID = ?`
+        const sqlString = `update member_shoppingCartList set quantity = ? WHERE memberID=? and productSizeID = ?`
         const [result] = await connection.execute(sqlString, [quantity, memberID, productSizeID])
         return result
     } catch (error) {
@@ -445,7 +445,7 @@ const updateProductSizeQuantityInCart = async (memberID, productSizeID, quantity
 }
 const deleteFavor = async (memberID, productSizeID) => {
     try {
-        const sqlString = `delete from member_favoriteslist where memberID= ? and productSizeID=? `
+        const sqlString = `delete from member_favoritesList where memberID= ? and productSizeID=? `
         const [result] = await connection.execute(sqlString, [memberID, productSizeID])
         return result
     } catch (error) {
