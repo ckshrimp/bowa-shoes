@@ -1,9 +1,11 @@
 const models = require('../models')
 
+
+
 const isLogin = async (req, res) => {           //判斷有無登入
     try{
         console.log('檢查登入狀態');
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false  //解密JWT拿到memberID
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false  //解密JWT拿到memberID
         if (!memberID) {
             const data = { isLogin: false }         //無登入
             return res.json(data)
@@ -32,7 +34,15 @@ const loginAuthenticate = async (req, res) => { //提交登入表單進行驗證
         if (loginResult) {
             const {token,memberID}=loginResult
             //將token存入req.header
-            req.header.authorization = `${token}`
+            // req.header.authorization = `${token}`
+
+            //??
+            console.log('寫入token',token);
+            res.cookie('jwtToken', token, {
+                httpOnly: true, // 防止 JavaScript 存取 Cookie
+                secure: false, // 只在 HTTPS 連線下傳送 Cookie
+                sameSite: 'Strict', // 僅允許相同站點的請求攜帶 Cookie
+            });
             ///更新登入時間
             await models.mysql.updateLastLoginDate(memberID)
             //如果購物車有東西，加入會員購物車
@@ -42,7 +52,6 @@ const loginAuthenticate = async (req, res) => { //提交登入表單進行驗證
             }
             //結束
             const cartList = await models.mysql.getCartList(memberID)
-            console.log('合併之後有',cartList);
             //找出購物車資料給前端儲存在本地
             const data = { result: true, cartList: cartList }
             return res.json(data)
@@ -78,7 +87,7 @@ const registerAuthenticate = async (req, res) => {
 
 const memberCenter = async (req, res) => {
     try{
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         if (!memberID) return res.json({ errorMessage: '尚未登入' })
         const data = await models.mysql.getMemberData(memberID)
         return res.json(data)
@@ -134,7 +143,7 @@ const changeMemberData = async (req, res) => {
     try{
         console.log('更改會員資料');
         const { name, gender, phoneNumber, address } = req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         const data = await models.mysql.setMemberData(name, gender, phoneNumber, address, memberID)
         console.log(data);
         res.json(data)
@@ -150,7 +159,7 @@ const changeMemberInfo = async (req,res) => {
         console.log('更改單項會員資料');
         console.log(req.body);
         const memberInfo=req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         await models.user.updateMemberInfo(memberID,memberInfo)
         const data = {result:true}
         res.json(data)
@@ -163,7 +172,7 @@ const changeMemberInfo = async (req,res) => {
 const getFavorData = async (req, res) => {
     try{
         console.log('獲取最愛資訊');
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         const data = await models.user.getFavorData(memberID)
         console.log(data);
         return res.json(data)
@@ -176,7 +185,7 @@ const addFavorData =async(req,res) =>{
     try{
         console.log('加入最愛');
         const {productSizeID}=req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         const result=await models.user.addProductToFavor(memberID,productSizeID)
         const data={result}
         return res.json(data)
@@ -189,7 +198,7 @@ const deleteFavor=async(req,res)=>{
     try{
         console.log('刪除最愛');
         const {productSizeID}=req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         const result=await models.user.deleteFavor(memberID,productSizeID)
         const data={result}
         return res.json(data)

@@ -363,8 +363,8 @@ const getNameAndSizeByProductSizeID = async (productSizeID) => {
         throw error
     }
 }
-const getThreeNewProduct = async () => {
-    const sqlString = `SELECT * FROM product ORDER BY creationDate DESC LIMIT 3`
+const getSixNewProduct = async () => {
+    const sqlString = `SELECT * FROM product WHERE isPublished=1 ORDER BY creationDate DESC LIMIT 6;`
     const [result] = await connection.execute(sqlString)
     return result
 }
@@ -395,6 +395,7 @@ const getCartList = async (memberID) => {
 }
 const changeProductSizeQuantityInCart = async (productSizeID, quantity, memberID) => {//改變購物車表格內的商品數量
     try {
+        console.log(productSizeID, quantity, memberID);
         const sqlString = `UPDATE member_shoppingCartList SET quantity = ? WHERE memberID= ? and productSizeID = ? `
         const result = await connection.execute(sqlString, [quantity, memberID, productSizeID])
         return
@@ -704,7 +705,7 @@ module.exports = {
     getConsumeTotal,
     getReturnID,
     createReturnProduct,
-    getThreeNewProduct,
+    getSixNewProduct,
     setNewPassword,
     updateLastLoginDate,
 }

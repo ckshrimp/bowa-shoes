@@ -7,30 +7,17 @@ const port = process.env.PORT || 6400
 const cookieParser = require('cookie-parser');
 const path = require('path');
 
-const { createProxyMiddleware } = require('http-proxy-middleware');
-
-
-
 app.set('view engine', 'ejs')
-const sessionMiddleware = (session({
-    secret: 'bowaShoesSeller',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false, httpOnly: false, maxAge: 3600000 } // 可選的 cookie 設定
-}))
+
 const cors = require('cors')
 
-
-
-app.use(cors({
-    origin: 'http://localhost:6400'
-}))
+// app.use(cors({
+//     origin: 'http://localhost:6400'
+// }))
 app.use(cookieParser());
 app.use((err, req, res, next) => {
     console.error("An unhandled error occurred:", err);
 });
-
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

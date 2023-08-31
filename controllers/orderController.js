@@ -65,7 +65,7 @@ const getOrderFormOption = async (req, res) => {
 const getMemberOrder = async (req, res) => {
     try {
         console.log('會員訂單清單');
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         const data = await models.order.getOrderList(memberID)
         return res.json(data)
     } catch (error) {
@@ -78,7 +78,7 @@ const getOrderDetail = async (req, res) => {
     try {
         console.log('訂單詳細資訊');
         const { orderID } = req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         if(!await models.order.checkMemberID(orderID,memberID)){
             return res.json({result:false,errorMessage:'無權限進行此操作'})
         }
@@ -96,7 +96,7 @@ const createOrderQA = async (req, res) => {
     try{
         console.log('新增問與答');
         const { orderID, content } = req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         if(!await models.order.checkMemberID(orderID,memberID)){
             return res.json({result:false,errorMessage:'無權限進行此操作'})
         }
@@ -113,7 +113,7 @@ const getOrderQA = async (req, res) => {
     try{
         console.log('讀取問與答');
         const { orderID } = req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         if(!await models.order.checkMemberID(orderID,memberID)){
             return res.json({result:false,errorMessage:'無權限進行此操作'})
         }
@@ -142,7 +142,7 @@ const returnOrderProduct = async (req, res) => {
     try{
         console.log('退貨');
         const returnData = req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         const orderID=returnData.orderID
         if(!await models.order.checkMemberID(orderID,memberID)){
             return res.json({result:false,errorMessage:'無權限進行此操作'})

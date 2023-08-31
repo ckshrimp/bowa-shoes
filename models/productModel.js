@@ -82,7 +82,7 @@ const getProductListByConditionWithImg=async(condition)=>{
     return productList
 }
 const getHomePageData = async()=>{
-    const productList = await mysql.getThreeNewProduct()
+    const productList = await mysql.getSixNewProduct()
     for(let i=0;i<productList.length;i++){
         const product=productList[i]
         const productID=product.productID

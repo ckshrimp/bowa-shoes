@@ -4,7 +4,7 @@ const models = require('../models')
 const getSimpleCartData = async (req, res) => {
     try{
         console.log('獲取簡易購物車資訊');
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         if (!memberID) return res.json(false)
         const cartList = await models.mysql.getCartList(memberID)
         const data = { cartList }
@@ -20,7 +20,7 @@ const getCartData = async (req, res) => {
     try{
         console.log('獲取購物車詳細資訊');
         const { cartList } = req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         console.log(memberID)
         if (memberID) {
             await models.cart.changeAllSizeAndQuantityInCart(memberID, cartList)        //如果已登入將本地購物車更新寫入資料庫
@@ -49,7 +49,7 @@ const addProductSizeToCart = async (req, res) => {
     try{
         console.log('加入商品至購物車');
         const {productData,cartList} = req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         const newCartList=await models.cart.addProductSizeToCart(productData, memberID,cartList)
         const data = { cartList:newCartList }
         res.json(data)
@@ -63,7 +63,7 @@ const updateCart = async (req, res) => {
     try{
         console.log('更改購物車內商品數量');
         const { cartList } = req.body
-        const memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        const memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         if(memberID){
             await models.cart.changeAllSizeAndQuantityInCart(memberID, cartList)
         }

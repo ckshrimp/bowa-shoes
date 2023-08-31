@@ -91,7 +91,7 @@ const deleteFavor = async (memberID, productSizeID) => {
     return true
 }
 
-const getmemberIDByJWT = (req) => jwt.verify(req.header.authorization, jwtKey, (error, result) => {
+const getmemberIDByJWT = (req) => jwt.verify(req.cookies.jwtToken, jwtKey, (error, result) => {
     try {
         const memberID = result.memberID
         return memberID
