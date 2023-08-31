@@ -11,7 +11,7 @@ const createOrder = async (req, res) => {
             const data = { orderID: false, errorMessage }
             return res.json(data)
         }
-        let memberID = req.header.authorization ? models.user.getmemberIDByJWT(req) : false
+        let memberID = req.cookies.jwtToken ? models.user.getmemberIDByJWT(req) : false
         if (!await models.order.isTotalPriceCorrect(orderData, memberID)) {
             const errorMessage = '商品價格已進行變更，請重新結帳'
             const data = { orderID: false, errorMessage }
