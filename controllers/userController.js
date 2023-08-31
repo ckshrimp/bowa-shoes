@@ -211,7 +211,12 @@ const deleteFavor=async(req,res)=>{
 const logout=async(req,res)=>{
     try{
         console.log('登出');
-        req.header.authorization = false
+        res.clearCookie('jwtToken', {
+            httpOnly: true, // 如果之前設定了 HttpOnly，這裡也需要設定
+            secure: false, // 如果之前設定了 Secure，這裡也需要設定
+            sameSite: 'Strict', // 如果之前設定了 SameSite，這裡也需要設定
+        });
+        
         const data={result:true}
         return res.json(data)
     }catch(error){
