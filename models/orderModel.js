@@ -57,15 +57,12 @@ const calculateShippingCost = (shippingCostCondition, totalPrice) => {
 }
 
 const createOrder = async (memberID, orderData) => {
-
     const { cartList, recipientInfo, paymentMethodID, deliveryMethodID, shippingCost, totalPrice, remark, discount } = orderData
     const id = await mysql.createOrder(memberID, shippingCost, paymentMethodID, deliveryMethodID, totalPrice, discount, remark)
     const [{ orderID }] = await mysql.getOrderID(id)
-
     const [{ email }] = await mysql.getEmailByMemberID(memberID)
     console.log(`對${email}寄送信件`);
     mailer.sendMailForOrder(email, orderID)
-
     //成立訂單完成
     for (let i = 0; i < cartList.length; i++) {
         const product = cartList[i]
@@ -78,10 +75,9 @@ const createOrder = async (memberID, orderData) => {
     }
     await mysql.createOrderRecipientInfo(orderID, recipientInfo)
     //減去庫存並填入訂單表格完成
-
-
-    mysql.clearCart(memberID)
-
+    
+    //清除會員購物車
+    await mysql.clearCart(memberID)
     //會員累積總消費金額，確認是否升級
     let [{ level, consumeTotal }] = await mysql.getVIPStatus(memberID)
     consumeTotal = consumeTotal + totalPrice-shippingCost
@@ -89,7 +85,6 @@ const createOrder = async (memberID, orderData) => {
         level = 1
     }
     await mysql.updateVIPStatus(memberID, level, consumeTotal)
-
     return orderID
 }
 const checkInventory = async (cartList) => {
