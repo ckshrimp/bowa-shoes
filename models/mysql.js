@@ -186,13 +186,15 @@ const updateLastLoginDate=async(memberID)=>{
 const getProductData = async (conditionList = false) => {
     try {
         if (!conditionList) {
-            const sqlString = `SELECT productID,productName,price,remark,series,model,style,genderType FROM product WHERE isPublished=1`
+            const sqlString = `SELECT productID,productName,price,remark,series,model,style,genderType.genderType FROM product 
+            left join genderType on genderType.genderTypeID=product.genderTypeID
+            WHERE isPublished=1`
             const [result] = await connection.execute(sqlString);
             return result
         }
         if(conditionList){
             const [condition,conditionValue]=conditionList
-            const sqlString =`select productID,productName,price,remark,series,model,style,genderType from product 
+            const sqlString =`select productID,productName,price,remark,series,model,style,genderType.genderType from product 
             left join brandType on brandType.brandTypeID=product.brandTypeID
             left join categoryType on categoryType.categoryTypeID=product.categoryTypeID
             left join genderType on genderType.genderTypeID=product.genderTypeID
