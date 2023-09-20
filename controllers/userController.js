@@ -35,9 +35,6 @@ const loginAuthenticate = async (req, res) => { //提交登入表單進行驗證
             const {token,memberID}=loginResult
             //將token存入req.header
             // req.header.authorization = `${token}`
-
-            //??
-            console.log('寫入token',token);
             res.cookie('jwtToken', token, {
                 httpOnly: true, // 防止 JavaScript 存取 Cookie
                 secure: false, // 只在 HTTPS 連線下傳送 Cookie
