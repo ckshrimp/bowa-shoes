@@ -155,13 +155,12 @@ const returnOrderProduct = async (returnData,memberID) => {
 }
 const getOrderList = async (memberID) => {
     const orderList = await mysql.getOrderList(memberID)
-    console.log(orderList);
     for(let i=0;i<orderList.length;i++){
         const order=orderList[i]
         if (order.doneDate) {
             const doneTime = new Date(order.doneDate);
             const currentTime = new Date()
-            if (604800000 > currentTime - doneTime > 0) {
+            if (604800000 > currentTime - doneTime > 0) {  //現在時間為訂單完成時間的7天內
                 order.returnAvailable = true
             } else {
                 order.returnAvailable = false
